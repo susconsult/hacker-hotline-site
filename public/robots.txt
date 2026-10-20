@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# Sitemap volgt zodra het domein vastligt.
