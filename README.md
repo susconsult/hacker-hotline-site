@@ -15,11 +15,13 @@ Oorspronkelijk voorbeeld: https://hacker-hotline-game-hub.lovable.app (Engels, L
 | alles anders | `404.html` (NL + FR) |
 
 Beide pagina's hebben dezelfde secties: intro, "Het spel", "In de doos", bestelformulier, FAQ.
-Een tekstwijziging doe je dus **altijd in beide bestanden** (`public/index.html` en `public/fr/index.html`).
+De drie HTML-pagina's worden **gebouwd** door `tools/build_pages.py`: daar staan alle NL- en FR-teksten samen.
+Wijzig teksten daar en draai `python3 tools/build_pages.py`. Pas de HTML in `public/` niet rechtstreeks aan, anders gaat het bij de volgende build verloren.
 
 ## Onderdelen van dit project
 
 - **Statische pagina's** in `public/`. De opmaak (`assets/styles.css`) is overgenomen van het Lovable-voorbeeld. Aanvullingen staan in `assets/site.css`.
+- **Favicon**: eigen hackerkopje (`favicon.svg`, met `favicon.ico` en `apple-touch-icon.png` als afgeleiden).
 - **Lettertypes** (Archivo Black, JetBrains Mono, Rubik) staan in de site zelf (`assets/fonts/`), niet bij Google. Daardoor is er geen cookiebanner nodig.
 - **Bestelformulier** (`assets/site.js` → `src/index.js` → Google Sheet):
   1. Velden: contactpersoon, school/organisatie, e-mail, telefoon, taal van het spel, aantal (1–20).
