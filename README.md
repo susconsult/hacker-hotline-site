@@ -21,6 +21,7 @@ Wijzig teksten daar en draai `python3 tools/build_pages.py`. Pas de HTML in `pub
 ## Onderdelen van dit project
 
 - **Statische pagina's** in `public/`. De opmaak (`assets/styles.css`) is overgenomen van het Lovable-voorbeeld. Aanvullingen staan in `assets/site.css`.
+- **Instructievideo** (alleen NL-pagina, sectie "Zo speel je het"): `assets/video/hh-instructievideo-nl.mp4` (720p, 6:25, 23 MB, verkleind uit `HH_INSTRUCTIEVIDEO_NL_V1`), stilstaand beeld `hh-instructievideo-nl.jpg`. Cloudflare aanvaardt max. 25 MB per bestand. Een Franse versie krijgt dezelfde behandeling en een `video_title` in `T["fr"]`.
 - **Favicon**: eigen hackerkopje (`favicon.svg`, met `favicon.ico` en `apple-touch-icon.png` als afgeleiden).
 - **Lettertypes** (Archivo Black, JetBrains Mono, Rubik) staan in de site zelf (`assets/fonts/`), niet bij Google. Daardoor is er geen cookiebanner nodig.
 - **Bestelformulier** (`assets/site.js` → `src/index.js` → Google Sheet):
@@ -77,7 +78,8 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 ## Openstaand
 
 - [x] Cloudflare Worker gekoppeld (20/10/2026): https://hacker-hotline-site.pieter-2d7.workers.dev
-- [ ] Google Sheet + Apps Script aanmaken, `SHEET_URL` en `NOTIFY_EMAIL` invullen, testaanvraag doen
+- [x] Google Sheet + Apps Script, `SHEET_URL` en `NOTIFY_EMAIL` ingesteld, testbestelling gelukt (20/10/2026)
+- [ ] Franse instructievideo
 - [ ] Domein kiezen en koppelen; daarna `sitemap.xml`, `canonical` en volledige `hreflang`-adressen toevoegen
 - [ ] Rechtsvorm van Hurae nakijken (nu: "Hurae", Adolphe Maxlaan 30, 1000 Brussel, BE 0662.479.613, overgenomen van hurae.be)
 - [ ] Contactadres: info@hurae.com (zo vermeld op hurae.be). Bevestigen
