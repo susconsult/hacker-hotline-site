@@ -5,7 +5,7 @@
 // Variabele in Cloudflare (Settings -> Runtime variables and secrets):
 //   SHEET_URL (Secret): adres van de Apps Script web-app, eindigt op /exec
 
-const LIMITS = { name: 120, org: 160, email: 160, phone: 40, address: 300, msg: 2000, id: 64 };
+const LIMITS = { name: 120, org: 160, email: 160, phone: 40, street: 120, number: 10, box: 10, postcode: 4, city: 80, msg: 2000, id: 64 };
 
 function json(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -43,14 +43,23 @@ async function handleRequest(request, env) {
     lang: d.lang === 'fr' ? 'fr' : 'nl',
     qty: Math.min(20, Math.max(1, parseInt(d.qty, 10) || 1)),
     delivery: d.delivery === 'ship' ? 'ship' : 'pickup',
-    address: clean(d.address, LIMITS.address),
+    street: clean(d.street, LIMITS.street),
+    number: clean(d.number, LIMITS.number),
+    box: clean(d.box, LIMITS.box),
+    postcode: clean(d.postcode, LIMITS.postcode),
+    city: clean(d.city, LIMITS.city),
     msg: clean(d.msg, LIMITS.msg),
   };
 
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email);
   if (!row.name || !row.org || !emailOk) return json({ ok: false, error: 'missing_fields' }, 400);
-  if (row.delivery === 'ship' && !row.address) return json({ ok: false, error: 'missing_address' }, 400);
-  if (row.delivery === 'pickup') row.address = '';
+  if (row.delivery === 'ship') {
+    if (!row.street || !row.number || !row.city || !/^\d{4}$/.test(row.postcode)) {
+      return json({ ok: false, error: 'missing_address' }, 400);
+    }
+  } else {
+    row.street = row.number = row.box = row.postcode = row.city = '';
+  }
 
   if (!env.SHEET_URL) return json({ ok: false, error: 'not_configured' }, 503);
 

@@ -19,7 +19,7 @@
 
 var SHEET_NAME = 'Aanvragen';
 var HEADERS = ['ID', 'Ontvangen', 'Pagina', 'Naam', 'School / organisatie', 'E-mail', 'Telefoon',
-  'Taal spel', 'Aantal', 'Levering', 'Leveradres', 'Bericht', 'Opgevolgd'];
+  'Taal spel', 'Aantal', 'Levering', 'Straat', 'Nr', 'Bus', 'Postcode', 'Gemeente', 'Bericht', 'Opgevolgd'];
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -43,7 +43,11 @@ function doPost(e) {
       d.lang === 'fr' ? 'Frans' : 'Nederlands',
       Number(d.qty) || 1,
       d.delivery === 'ship' ? 'Opsturen' : 'Ophalen',
-      safe_(d.address),
+      safe_(d.street),
+      safe_(d.number),
+      safe_(d.box),
+      safe_(d.postcode),
+      safe_(d.city),
       safe_(d.msg)
     ]]);
     // Selectievakje alleen in de nieuwe rij (niet in de hele kolom).
@@ -94,7 +98,7 @@ function notify_(d) {
     'Taal spel: ' + (d.lang === 'fr' ? 'Frans' : 'Nederlands'),
     'Aantal: ' + d.qty,
     'Levering: ' + (d.delivery === 'ship' ? 'Opsturen' : 'Ophalen'),
-    d.delivery === 'ship' ? 'Leveradres: ' + d.address : '',
+    d.delivery === 'ship' ? 'Leveradres: ' + d.street + ' ' + d.number + (d.box ? ' bus ' + d.box : '') + ', ' + d.postcode + ' ' + d.city : '',
     '',
     'Bericht:',
     d.msg || '-',

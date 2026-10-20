@@ -22,7 +22,7 @@ Een tekstwijziging doe je dus **altijd in beide bestanden** (`public/index.html`
 - **Statische pagina's** in `public/`. De opmaak (`assets/styles.css`) is overgenomen van het Lovable-voorbeeld. Aanvullingen staan in `assets/site.css`.
 - **Lettertypes** (Archivo Black, JetBrains Mono, Rubik) staan in de site zelf (`assets/fonts/`), niet bij Google. Daardoor is er geen cookiebanner nodig.
 - **Bestelformulier** (`assets/site.js` → `src/index.js` → Google Sheet):
-  1. De bezoeker vult het formulier in. Bij "Opsturen" verschijnt een verplicht veld leveradres.
+  1. De bezoeker vult het formulier in. Bij "Opsturen" verschijnen verplichte velden voor het leveradres: straat, nr., bus (optioneel), postcode (4 cijfers) en gemeente, elk in een eigen kolom in de sheet.
   2. De Worker controleert de aanvraag en stuurt ze door naar een Apps Script in een Google Sheet.
   3. Het script zet de aanvraag als rij in het tabblad **Aanvragen** en stuurt een meldingsmail.
   4. De bezoeker krijgt pas "Bedankt" als het script expliciet bevestigt dat de rij bewaard is.

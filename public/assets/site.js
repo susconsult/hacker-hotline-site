@@ -8,7 +8,7 @@
 
   var deliveryInput = form.querySelector('input[name="delivery"]');
   var addressWrap = document.getElementById('address-wrap');
-  var address = document.getElementById('f-address');
+  var addrFields = form.querySelectorAll('[data-addr-required]');
   var status = document.getElementById('form-status');
   var submit = form.querySelector('button[type="submit"]');
   var buttons = form.querySelectorAll('[data-delivery]');
@@ -25,7 +25,7 @@
     });
     var ship = value === 'ship';
     addressWrap.hidden = !ship;
-    address.required = ship;
+    addrFields.forEach(function (el) { el.required = ship; });
   }
   buttons.forEach(function (b) {
     b.addEventListener('click', function () { setDelivery(b.getAttribute('data-delivery')); });
