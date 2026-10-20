@@ -1,6 +1,6 @@
 # hacker-hotline-site
 
-Landingspagina voor **Hacker Hotline**, het gratis bordspel over online fraude voor jongeren (vanaf 10 jaar).
+Landingspagina voor **Hacker Hotline**, het bordspel over online fraude voor jongeren (vanaf 10 jaar).
 Een initiatief van Febelfin × Hurae. Gebouwd en beheerd door SUS Consult als wolfpakket, in opdracht van **Hurae**.
 
 Oorspronkelijk voorbeeld: https://hacker-hotline-game-hub.lovable.app (Engels, Lovable). Deze site is daar een eigen, tweetalige versie van.
@@ -66,6 +66,7 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 
 - Intro, spelinhoud, aantal spelers (2–8), leeftijd (10+) en duur (20') komen van de doosbodem (`HH_Doos_bodem_NL.pdf` en `_FR.pdf`). Het Lovable-voorbeeld zei 2–6 spelers; de doos is leidend.
 - Kaartjes in `public/assets/img/` zijn uit `Speelkaarten.pdf` gehaald (pagina 1–4), bijgesneden op de snijlijn (TrimBox), 501 × 760 px.
+- Prijs: € 39 per spel, btw inbegrepen, verzending extra (bevestigd door Cléo van Hurae, 20/10/2026). Het Lovable-voorbeeld zei "gratis"; dat is fout.
 - "Helpers" en "Hackers" blijven ook in het Frans zo (staat zo op de Franse doos).
 
 ## Openstaand
@@ -78,3 +79,5 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 - [ ] Franse spelkaarten: de kaarten-PDF is enkel Nederlandstalig. Franse versie aanvragen voor `/fr/`
 - [ ] Grote foto wordt nog van febelfin.be geladen. Origineel bestand vragen en in `public/assets/img/` zetten
 - [ ] Franse teksten laten nalezen door een Franstalige
+- [ ] Verzendkosten: bedrag vermelden? Betaling: hoe (factuur, overschrijving)? Facturatiegegevens nodig in het formulier?
+- [ ] Ophalen bij Febelfin: blijft dat mogelijk?
