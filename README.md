@@ -52,7 +52,7 @@ In het Apps Script (Projectinstellingen → Scripteigenschappen):
 | Wat | Waar | Login |
 |---|---|---|
 | Code | github.com/susconsult/hacker-hotline-site | GitHub `susconsult` |
-| Hosting | Cloudflare Worker `hacker-hotline-site` | pieter@susconsult.be |
+| Hosting | Cloudflare Worker `hacker-hotline-site` (tijdelijk adres: hacker-hotline-site.pieter-2d7.workers.dev) | pieter@susconsult.be |
 | Aanvragen | Google Sheet (nog aan te maken) | nog te bepalen |
 | Domein | nog te bepalen | – |
 
@@ -70,7 +70,7 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 
 ## Openstaand
 
-- [ ] Cloudflare Worker koppelen aan deze repository
+- [x] Cloudflare Worker gekoppeld (20/10/2026): https://hacker-hotline-site.pieter-2d7.workers.dev
 - [ ] Google Sheet + Apps Script aanmaken, `SHEET_URL` en `NOTIFY_EMAIL` invullen, testaanvraag doen
 - [ ] Domein kiezen en koppelen; daarna `sitemap.xml`, `canonical` en volledige `hreflang`-adressen toevoegen
 - [ ] Rechtsvorm van Hurae nakijken (nu: "Hurae", Adolphe Maxlaan 30, 1000 Brussel, BE 0662.479.613, overgenomen van hurae.be)
