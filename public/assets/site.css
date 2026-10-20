@@ -57,7 +57,108 @@ header nav a { white-space: nowrap; }
 .check-row input[type="checkbox"] { width: 1.25rem; height: 1.25rem; margin-top: 0.1rem; flex: none; accent-color: #0b1320; }
 .order-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; border-top: 3px solid currentColor; padding-top: 1rem; }
 
-/* Instructievideo */
-.video-frame { border: 3px solid #0b1320; border-radius: 0.5rem; overflow: hidden; box-shadow: 6px 6px 0 #0b1320; background: #0b1320; }
-.video-frame video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
-#video { border-top: 3px solid #0b1320; }
+/* Instructievideo – eigen speler */
+#video { border-top: 3px solid var(--ink); }
+.hh-player {
+  position: relative; overflow: hidden; background: var(--ink);
+  border: 3px solid var(--ink); border-radius: 0.6rem;
+  box-shadow: var(--shadow-block, 6px 6px 0 var(--ink));
+  aspect-ratio: 16 / 9; color: var(--ink-foreground);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+.hh-player video { display: block; width: 100%; height: 100%; object-fit: contain; background: var(--ink); }
+.hh-player.is-enhanced video { cursor: pointer; }
+
+/* Grote startknop */
+.hh-big {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-2deg);
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.9rem 1.6rem 0.9rem 0.9rem;
+  background: var(--warn); color: var(--ink);
+  border: 3px solid var(--ink); border-radius: 0.6rem;
+  box-shadow: 6px 6px 0 var(--ink); cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.hh-big:hover, .hh-big:focus-visible { transform: translate(-50%, -50%) rotate(0deg) scale(1.04); box-shadow: 9px 9px 0 var(--ink); outline: none; }
+.hh-big:active { transform: translate(-50%, -50%) translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
+.hh-big-icon {
+  display: grid; place-items: center; width: 3.6rem; height: 3.6rem; flex: none;
+  background: var(--hacker); border: 3px solid var(--ink); border-radius: 50%;
+}
+.hh-big-icon svg { width: 1.9rem; height: 1.9rem; fill: var(--ink-foreground); margin-left: 0.2rem; }
+.hh-big-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.hh-big-label { font-family: var(--font-display); text-transform: uppercase; font-size: 1.35rem; line-height: 1.1; }
+.hh-big-time { font-size: 0.8rem; margin-top: 0.2rem; }
+.hh-player.is-ended .hh-big-icon svg { margin-left: 0; }
+@media (max-width: 520px) {
+  .hh-big { gap: 0.6rem; padding: 0.55rem 1rem 0.55rem 0.55rem; }
+  .hh-big-icon { width: 2.6rem; height: 2.6rem; }
+  .hh-big-icon svg { width: 1.3rem; height: 1.3rem; }
+  .hh-big-label { font-size: 1rem; }
+  .hh-big-time { font-size: 0.7rem; }
+}
+
+/* Bedieningsbalk */
+.hh-bar {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 2rem 0.9rem 0.75rem;
+  background: linear-gradient(to top, rgba(8, 14, 24, .92), rgba(8, 14, 24, .55) 60%, transparent);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.hh-player.is-idle .hh-bar { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.hh-player.is-idle.is-playing { cursor: none; }
+.hh-btn {
+  display: grid; place-items: center; flex: none;
+  min-width: 2.4rem; height: 2.4rem; padding: 0 0.35rem;
+  color: var(--ink-foreground); background: transparent;
+  border: 2px solid transparent; border-radius: 0.4rem; cursor: pointer;
+  font: 600 0.85rem/1 "JetBrains Mono", ui-monospace, monospace;
+}
+.hh-btn:hover { border-color: var(--ink-foreground); }
+.hh-btn:focus-visible, .hh-track:focus-visible { outline: 3px solid var(--warn); outline-offset: 2px; }
+.hh-btn svg { width: 1.35rem; height: 1.35rem; fill: currentColor; }
+.hh-btn[data-act="play"] { background: var(--hacker); border-color: var(--ink-foreground); }
+.hh-player .i-pause, .hh-player .i-muted, .hh-player .i-fs-exit { display: none; }
+.hh-player.is-playing .i-play { display: none; }
+.hh-player.is-playing .i-pause { display: block; }
+.hh-player.is-muted .i-vol { display: none; }
+.hh-player.is-muted .i-muted { display: block; }
+.hh-player.is-fullscreen .i-fs { display: none; }
+.hh-player.is-fullscreen .i-fs-exit { display: block; }
+.hh-time { font-size: 0.8rem; font-variant-numeric: tabular-nums; min-width: 2.6rem; text-align: center; flex: none; }
+
+/* Voortgang = de HACKED → SAFE-meter */
+.hh-track {
+  position: relative; flex: 1; height: 0.95rem; cursor: pointer; touch-action: none;
+  background-image: var(--gradient-meter, linear-gradient(90deg, var(--hacker), var(--warn), var(--helper)));
+  border: 2px solid var(--ink-foreground); border-radius: 0.3rem;
+}
+.hh-buffer, .hh-rest { position: absolute; top: 0; bottom: 0; right: 0; }
+.hh-rest { left: 0; background: rgba(8, 14, 24, .78); border-radius: 0 0.15rem 0.15rem 0; }
+.hh-buffer { left: 0; background: rgba(255, 255, 255, .12); z-index: 1; pointer-events: none; }
+.hh-thumb {
+  position: absolute; top: 50%; left: 0; z-index: 2;
+  width: 1.15rem; height: 1.6rem; transform: translate(-50%, -50%);
+  background: var(--ink-foreground); border: 3px solid var(--ink); border-radius: 0.35rem;
+  box-shadow: 2px 2px 0 var(--ink); pointer-events: none; transition: transform .1s ease;
+}
+.hh-track:hover .hh-thumb, .hh-player.is-seeking .hh-thumb { transform: translate(-50%, -50%) scale(1.15); }
+@media (max-width: 520px) {
+  .hh-bar { gap: 0.3rem; padding: 1.5rem 0.4rem 0.4rem; }
+  .hh-speed, .hh-time[data-dur] { display: none; }
+  .hh-btn { min-width: 2.1rem; height: 2.1rem; }
+}
+
+/* Laden */
+.hh-spinner {
+  position: absolute; left: 50%; top: 50%; width: 3rem; height: 3rem; margin: -1.5rem 0 0 -1.5rem;
+  border: 4px solid rgba(255, 255, 255, .25); border-top-color: var(--warn); border-radius: 50%;
+  opacity: 0; pointer-events: none; animation: hh-spin .8s linear infinite;
+}
+.hh-player.is-waiting .hh-spinner { opacity: 1; }
+@keyframes hh-spin { to { transform: rotate(360deg); } }
+
+.hh-player:fullscreen { border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; width: 100%; height: 100%; }
+.hh-player:-webkit-full-screen { border: 0; border-radius: 0; box-shadow: none; aspect-ratio: auto; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) { .hh-big, .hh-bar, .hh-thumb { transition: none; } .hh-spinner { animation-duration: 2s; } }

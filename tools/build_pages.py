@@ -6,7 +6,7 @@ en draai daarna vanuit de map van de repository:
     python3 tools/build_pages.py
 
 Schrijft public/index.html (NL), public/fr/index.html (FR) en public/404.html."""
-import sys, os, html
+import sys, os, html, json
 
 ROOT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 HERO_IMG = "https://febelfin.be/media/pages/pers/fraude-veiligheid/hacker-hotline-2-0-bordspel-maakt-jongeren-cyberweerbaar/a3546e9629-1759734640/hacker-hotline-game.jpg"
@@ -30,7 +30,8 @@ T = {
   f3t="Bouw aan cyberhygiëne", f3="Sterke wachtwoorden, updates en tweestapsverificatie. Helpers beschermen profielen, Hackers proberen ze te stelen.",
   photo_alt="Het bordspel Hacker Hotline op tafel",
   box="In de doos", box_items=["1 spelbord","6 profielpionnen","6 profielkaarten","110 spelkaarten","1 handleiding"],
-  video_title="Zo speel je het", video_text="Bekijk in 6 minuten hoe je Hacker Hotline opzet en speelt.", video_alt="Instructievideo Hacker Hotline",
+  video_title="Zo speel je het", video_text="Bekijk in 6 minuten hoe je Hacker Hotline opzet en speelt.", video_alt="Instructievideo Hacker Hotline", video_src="/assets/video/hh-instructievideo-nl.mp4", video_poster="/assets/video/hh-instructievideo-nl.jpg", video_duration="6:25",
+  pl_play="Afspelen", pl_pause="Pauzeren", pl_big="Speel de uitleg", pl_again="Opnieuw bekijken", pl_mute="Geluid uit", pl_unmute="Geluid aan", pl_fs="Volledig scherm", pl_fs_exit="Volledig scherm sluiten", pl_speed="Afspeelsnelheid", pl_seek="Voortgang van de video", pl_loading="Laden…",
   h2_order="Bestel het spel", order_free="€&nbsp;39 per spel, btw inbegrepen.",
   order_how="Haal het op bij de kantoren van Febelfin, of laat het opsturen voor €&nbsp;7,50 verzendkosten. Je betaalt achteraf, na ontvangst van de factuur.",
   order_mail="&gt; of mail rechtstreeks:",
@@ -162,7 +163,23 @@ def page(lang):
     feats = "".join(f'<div class="panel p-6"><div class="font-mono text-sm text-hacker">[0{n}]</div><h3 class="mt-3 text-2xl">{t[f"f{n}t"]}</h3><p class="mt-3 text-muted-foreground">{t[f"f{n}"]}</p></div>' for n in (1, 2, 3))
     video = ""
     if t.get("video_title"):
-        video = f'''<section id="video" class="px-6 py-24"><div class="mx-auto max-w-4xl"><h2 class="text-5xl sm:text-6xl">{t['video_title']}</h2><p class="mt-4 text-lg text-muted-foreground">{t['video_text']}</p><div class="video-frame mt-10"><video controls playsinline preload="none" poster="/assets/video/hh-instructievideo-nl.jpg" width="1280" height="720" aria-label="{t['video_alt']}"><source src="/assets/video/hh-instructievideo-nl.mp4" type="video/mp4"/></video></div></div></section>'''
+        pl = {k[3:]: t[k] for k in t if k.startswith('pl_')}
+        pl_json = html.escape(json.dumps(pl, ensure_ascii=False), quote=True)
+        video = f'''<section id="video" class="px-6 py-24"><div class="mx-auto max-w-4xl"><h2 class="text-5xl sm:text-6xl">{t['video_title']}</h2><p class="mt-4 text-lg text-muted-foreground">{t['video_text']}</p>
+<div class="hh-player mt-10" data-player data-labels="{pl_json}">
+<video controls playsinline preload="metadata" poster="{t['video_poster']}" width="1280" height="720" aria-label="{t['video_alt']}"><source src="{t['video_src']}" type="video/mp4"/></video>
+<button type="button" class="hh-big" data-act="big" hidden><span class="hh-big-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span><span class="hh-big-text"><span class="hh-big-label">{t['pl_big']}</span><span class="hh-big-time">&gt; {t['video_duration']} min_</span></span></button>
+<div class="hh-spinner" aria-hidden="true"></div>
+<div class="hh-bar" hidden>
+<button type="button" class="hh-btn" data-act="play" aria-label="{t['pl_play']}"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+<span class="hh-time" data-cur>0:00</span>
+<div class="hh-track" data-track role="slider" tabindex="0" aria-label="{t['pl_seek']}" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00"><div class="hh-buffer" data-buffer></div><div class="hh-rest" data-rest></div><div class="hh-thumb" data-thumb></div></div>
+<span class="hh-time" data-dur>{t['video_duration']}</span>
+<button type="button" class="hh-btn hh-speed" data-act="speed" aria-label="{t['pl_speed']}">1×</button>
+<button type="button" class="hh-btn" data-act="mute" aria-label="{t['pl_mute']}"><svg class="i-vol" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><svg class="i-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<button type="button" class="hh-btn" data-act="fs" aria-label="{t['pl_fs']}"><svg class="i-fs" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg><svg class="i-fs-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg></button>
+</div>
+</div></div></section>'''
     msgs = html.escape(f'{{"sending":"{t["sending"]}","ok":"{t["ok"]}","err":"{t["err"]}"}}', quote=True)
     return f'''{head(t, lang, t['title'], t['desc'])}
 <body>
@@ -201,6 +218,7 @@ def page(lang):
 {footer(t)}
 </main>
 <script src="/assets/site.js" defer></script>
+{'<script src="/assets/player.js" defer></script>' if video else ''}
 </body>
 </html>
 '''

@@ -21,7 +21,7 @@ Wijzig teksten daar en draai `python3 tools/build_pages.py`. Pas de HTML in `pub
 ## Onderdelen van dit project
 
 - **Statische pagina's** in `public/`. De opmaak (`assets/styles.css`) is overgenomen van het Lovable-voorbeeld. Aanvullingen staan in `assets/site.css`.
-- **Instructievideo** (alleen NL-pagina, sectie "Zo speel je het"): `assets/video/hh-instructievideo-nl.mp4` (720p, 6:25, 23 MB, verkleind uit `HH_INSTRUCTIEVIDEO_NL_V1`), stilstaand beeld `hh-instructievideo-nl.jpg`. Cloudflare aanvaardt max. 25 MB per bestand. Een Franse versie krijgt dezelfde behandeling en een `video_title` in `T["fr"]`.
+- **Instructievideo** (alleen NL-pagina, sectie "Zo speel je het"): `assets/video/hh-instructievideo-nl.mp4` (720p, 6:25, 23 MB, verkleind uit `HH_INSTRUCTIEVIDEO_NL_V1`), stilstaand beeld `hh-instructievideo-nl.jpg`. Eigen speler (`assets/player.js`): grote startknop, voortgangsbalk in de stijl van de HACKED→SAFE-meter, snelheid, geluid, volledig scherm, toetsen (spatie/K, M, F, pijltjes). Zonder JavaScript valt hij terug op de gewone browserspeler. Cloudflare aanvaardt max. 25 MB per bestand. Een Franse versie krijgt dezelfde behandeling en een `video_title` in `T["fr"]`.
 - **Favicon**: eigen hackerkopje (`favicon.svg`, met `favicon.ico` en `apple-touch-icon.png` als afgeleiden).
 - **Lettertypes** (Archivo Black, JetBrains Mono, Rubik) staan in de site zelf (`assets/fonts/`), niet bij Google. Daardoor is er geen cookiebanner nodig.
 - **Bestelformulier** (`assets/site.js` → `src/index.js` → Google Sheet):
