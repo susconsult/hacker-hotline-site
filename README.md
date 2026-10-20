@@ -62,15 +62,19 @@ Elke push naar `main` wordt na 2 à 4 minuten automatisch gepubliceerd door Clou
 
 Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://localhost:8787.
 
+## Bronnen voor inhoud
+
+- Intro, spelinhoud, aantal spelers (2–8), leeftijd (10+) en duur (20') komen van de doosbodem (`HH_Doos_bodem_NL.pdf` en `_FR.pdf`). Het Lovable-voorbeeld zei 2–6 spelers; de doos is leidend.
+- Kaartjes in `public/assets/img/` zijn uit `Speelkaarten.pdf` gehaald (pagina 1–4), bijgesneden op de snijlijn (TrimBox), 501 × 760 px.
+- "Helpers" en "Hackers" blijven ook in het Frans zo (staat zo op de Franse doos).
+
 ## Openstaand
 
 - [ ] Cloudflare Worker koppelen aan deze repository
 - [ ] Google Sheet + Apps Script aanmaken, `SHEET_URL` en `NOTIFY_EMAIL` invullen, testaanvraag doen
 - [ ] Domein kiezen en koppelen; daarna `sitemap.xml`, `canonical` en volledige `hreflang`-adressen toevoegen
-- [ ] Wettelijke vermelding: officiële naam, adres en ondernemingsnummer van de uitgever (Hurae en/of Febelfin) in de voettekst
-- [ ] Nakijken: schrijfwijze "Hurae", correct contactadres (info@febelfin.be?), wie de aanvragen opvolgt
-- [ ] Leeftijd: overal 10+ gezet (het voorbeeld zei op één plek 12+). Bevestigen bij de klant
-- [ ] Franse spelkaarten: de kaartjes op de site zijn Nederlandstalig. Franse versies aanvragen voor `/fr/`
-- [ ] Namen van de teams in het Frans nakijken ("Helpers" en "Hackers" nu onvertaald)
+- [ ] Rechtsvorm van Hurae nakijken (nu: "Hurae", Adolphe Maxlaan 30, 1000 Brussel, BE 0662.479.613, overgenomen van hurae.be)
+- [ ] Contactadres: info@hurae.com (zo vermeld op hurae.be). Bevestigen
+- [ ] Franse spelkaarten: de kaarten-PDF is enkel Nederlandstalig. Franse versie aanvragen voor `/fr/`
 - [ ] Grote foto wordt nog van febelfin.be geladen. Origineel bestand vragen en in `public/assets/img/` zetten
 - [ ] Franse teksten laten nalezen door een Franstalige
