@@ -22,11 +22,14 @@ Een tekstwijziging doe je dus **altijd in beide bestanden** (`public/index.html`
 - **Statische pagina's** in `public/`. De opmaak (`assets/styles.css`) is overgenomen van het Lovable-voorbeeld. Aanvullingen staan in `assets/site.css`.
 - **Lettertypes** (Archivo Black, JetBrains Mono, Rubik) staan in de site zelf (`assets/fonts/`), niet bij Google. Daardoor is er geen cookiebanner nodig.
 - **Bestelformulier** (`assets/site.js` → `src/index.js` → Google Sheet):
-  1. De bezoeker vult het formulier in. Bij "Opsturen" verschijnen verplichte velden voor het leveradres: straat, nr., bus (optioneel), postcode (4 cijfers) en gemeente, elk in een eigen kolom in de sheet.
-  2. De Worker controleert de aanvraag en stuurt ze door naar een Apps Script in een Google Sheet.
-  3. Het script zet de aanvraag als rij in het tabblad **Aanvragen** en stuurt een meldingsmail.
-  4. De bezoeker krijgt pas "Bedankt" als het script expliciet bevestigt dat de rij bewaard is.
-  - Elke aanvraag heeft een ID; dubbels worden geweigerd, dus opnieuw proberen is veilig.
+  1. Velden: contactpersoon, school/organisatie, e-mail, telefoon, taal van het spel, aantal (1–20).
+  2. **Facturatiegegevens** (verplicht): naam op de factuur, ondernemingsnr./btw (optioneel), adres (straat, nr., bus, postcode, gemeente), factuur-e-mail (optioneel).
+  3. **Levering**: ophalen bij Febelfin, of opsturen (+ € 7,50). Bij opsturen staat "Leveren op het facturatieadres" standaard aan; uitvinken toont een apart leveradres.
+  4. **Totaal** telt live mee: aantal × € 39 + eventueel € 7,50, btw inbegrepen. De Worker rekent het totaal zelf opnieuw uit (prijzen bovenaan `src/index.js`).
+  5. **Akkoord-vinkje** verplicht: "Ik bevestig deze bestelling en betaal na ontvangst van de factuur."
+  6. De Worker controleert alles en stuurt de bestelling door naar het Apps Script. Dat zet ze als rij in tabblad **Bestellingen** (met vinkjes Gefactureerd / Betaald / Verstuurd) en stuurt een meldingsmail.
+  7. De bezoeker krijgt pas "Bedankt" als het script expliciet bevestigt dat de rij bewaard is.
+  - Elke bestelling heeft een ID; dubbels worden geweigerd, dus opnieuw proberen is veilig.
   - Onzichtbaar spam-veld (`website`): ingevuld = stil genegeerd.
   - De code van het script staat in `apps-script/Code.gs`, met de installatiestappen bovenaan.
 - **Geen meting, geen advertenties** (voorlopig). Komt er later Analytics of een pixel, dan is een cookiebanner nodig.
@@ -53,7 +56,7 @@ In het Apps Script (Projectinstellingen → Scripteigenschappen):
 |---|---|---|
 | Code | github.com/susconsult/hacker-hotline-site | GitHub `susconsult` |
 | Hosting | Cloudflare Worker `hacker-hotline-site` (tijdelijk adres: hacker-hotline-site.pieter-2d7.workers.dev) | pieter@susconsult.be |
-| Aanvragen | Google Sheet (nog aan te maken) | nog te bepalen |
+| Bestellingen | Google Sheet "Hacker Hotline aanvragen" + Apps Script met dezelfde naam | pieter@susconsult.be |
 | Domein | nog te bepalen | – |
 
 ## Publiceren
@@ -66,7 +69,7 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 
 - Intro, spelinhoud, aantal spelers (2–8), leeftijd (10+) en duur (20') komen van de doosbodem (`HH_Doos_bodem_NL.pdf` en `_FR.pdf`). Het Lovable-voorbeeld zei 2–6 spelers; de doos is leidend.
 - Kaartjes in `public/assets/img/` zijn uit `Speelkaarten.pdf` gehaald (pagina 1–4), bijgesneden op de snijlijn (TrimBox), 501 × 760 px.
-- Prijs: € 39 per spel, btw inbegrepen, verzending extra (bevestigd door Cléo van Hurae, 20/10/2026). Het Lovable-voorbeeld zei "gratis"; dat is fout.
+- Prijs: € 39 per spel, btw inbegrepen; verzending € 7,50; betaling via factuur achteraf (bevestigd door Hurae, 20/10/2026). Het Lovable-voorbeeld zei "gratis"; dat is fout.
 - "Helpers" en "Hackers" blijven ook in het Frans zo (staat zo op de Franse doos).
 
 ## Openstaand
@@ -79,5 +82,6 @@ Lokaal testen: `npx wrangler dev --var SHEET_URL:<test-url>` en open http://loca
 - [ ] Franse spelkaarten: de kaarten-PDF is enkel Nederlandstalig. Franse versie aanvragen voor `/fr/`
 - [ ] Grote foto wordt nog van febelfin.be geladen. Origineel bestand vragen en in `public/assets/img/` zetten
 - [ ] Franse teksten laten nalezen door een Franstalige
-- [ ] Verzendkosten: bedrag vermelden? Betaling: hoe (factuur, overschrijving)? Facturatiegegevens nodig in het formulier?
+- [ ] Verzending € 7,50: per zending of per spel? Nu: per zending, ongeacht het aantal
+- [ ] Algemene voorwaarden: bestaan die? Dan link bij het akkoord-vinkje
 - [ ] Ophalen bij Febelfin: blijft dat mogelijk?

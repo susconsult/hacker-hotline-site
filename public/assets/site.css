@@ -45,3 +45,14 @@ header nav a { white-space: nowrap; }
   .addr-postcode { grid-column: span 2; }
   .addr-city { grid-column: span 4; }
 }
+
+/* Facturatie, levering, totaal, vinkjes */
+.form-block { border: 0; padding: 0; margin: 0; min-width: 0; }
+.form-block legend { margin-bottom: 0.5rem; font-weight: 700; }
+.form-block .mb-4 { margin-bottom: 1rem; }
+.form-block .mt-4, #address-wrap.mt-4 { margin-top: 1rem; }
+.addr-half { grid-column: span 6; }
+@media (min-width: 640px) { .addr-half { grid-column: span 3; } }
+.check-row { display: flex; gap: 0.75rem; align-items: flex-start; cursor: pointer; line-height: 1.4; }
+.check-row input[type="checkbox"] { width: 1.25rem; height: 1.25rem; margin-top: 0.1rem; flex: none; accent-color: #0b1320; }
+.order-total { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; border-top: 3px solid currentColor; padding-top: 1rem; }
